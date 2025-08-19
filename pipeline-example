@@ -1,0 +1,46 @@
+pipeline {
+    agent{
+        node{
+            label "Dev"
+        }
+    }
+    environment{
+        scanner_name="mysonar"
+    }
+    tools{
+        maven "mymaven"
+    }
+    stages {
+        stage('code') {
+            steps {
+                git branch: 'develop-1.0', url: 'https://github.com/ThrineshJogu/demorepo.git'
+            }
+        }
+        stage('biuld'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage ('cqa'){
+            steps{
+                sh ''' 
+                     mvn sonar:sonar \
+                     -Dsonar.projectKey=sonar \
+                     -Dsonar.host.url=http://16.170.217.191:9000 \
+                     -Dsonar.login=4868ace8c572134da5ab4944203fc877068f2321
+                 '''
+            }
+        }
+        stage('artifact'){
+            steps{
+               nexusArtifactUploader artifacts: [[artifactId: 'myweb', classifier: '', file: 'target/myweb-8.6.9.war', type: 'war']], credentialsId: 'nexus', groupId: 'in.javahome', nexusUrl: '13.62.18.208:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Repo', version: 'in.javahome' 
+            }
+        }
+        stage('deploy'){
+            steps{
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatcred', path: '', url: 'http://51.20.74.154:8080')], contextPath: 'ecommerce', war: 'target/*.war'
+            }
+        }
+    }
+}
+
