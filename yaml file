@@ -1,0 +1,11 @@
+---
+
+- hosts: Test
+  connection: ssh
+  vars:
+    - abc: git
+  tasks:
+   - name: installing git in test
+     yum: name={{abc}} state=present
+
+...
