@@ -1,0 +1,19 @@
+---
+- hosts: all
+  connection: ssh
+
+  tasks:
+  - name: installing webservers
+    yum: name=httpd state=present
+
+  - name: starting webserver
+    service: name=httpd state=started
+
+  - name: creating file in default path
+    file: path="/var/www/html/index.html" state=touch
+
+  - name: placing data
+    copy:
+      dest: "/var/www/html/index.html"
+      content: |
+        <h1> Thrinesh</h1>
