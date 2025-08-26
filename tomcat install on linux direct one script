@@ -17,6 +17,4 @@ echo '/var/tmp_disk /tmp none bind 0 0' | sudo tee -a /etc/fstab
 sudo systemctl mask tmp.mount
 df -h /tmp
 
-
-
-note update the tomcat version before installing---tomcat-9/v9.0.108
+#note update the tomcat version before installing---tomcat-9/v9.0.108
