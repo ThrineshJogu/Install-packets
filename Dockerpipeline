@@ -28,3 +28,32 @@ pipeline {
     }
 }
 
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ThrineshJogu/one.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t img:v2 .'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker run -itd --name con1 -p 1122:80 img:v2'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+    }
+}
