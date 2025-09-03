@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ThrineshJogu/one.git'
+            }
+        }
+        stage('image'){
+            steps{
+                sh 'docker build -t img:v1 .'
+            }
+        }
+        stage('container'){
+            steps{
+                sh 'docker run -itd --name con -p 1234:80 img:v1'
+            }
+        }
+    }
+}
