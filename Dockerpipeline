@@ -10,36 +10,6 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t img:v1 .'
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh 'docker run -itd --name container -p 3333:80 img:v1'
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-    }
-}
-
-pipeline {
-    agent any
-
-    stages {
-        stage('Clone Code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/ThrineshJogu/one.git'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
                 sh 'docker build -t img:v2 .'
             }
         }
