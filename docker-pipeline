@@ -1,20 +1,25 @@
 pipeline {
     agent any
     stages {
-        stage('code') {
+        stage('Clone Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/ThrineshJogu/one.git'
             }
         }
-        stage('image'){
-            steps{
-                sh 'docker build -t img:v1 .'
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t img:v8 .'
             }
         }
-        stage('container'){
-            steps{
-                sh 'docker run -itd --name con -p 1234:80 img:v1'
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker run -itd --name con5 -p 3344:80 img:v8'
             }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline execution completed.'
         }
     }
 }
