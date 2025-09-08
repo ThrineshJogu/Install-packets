@@ -1,4 +1,4 @@
-Jenkins executor error scripts (when we are using the linux)
+#Jenkins executor error scripts (when we are using the linux) for master and slave nodes if nodes are going offline
 
 sudo mkdir -p /var/tmp_disk
 sudo chmod 1777 /var/tmp_disk
