@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: flm
+spec:
+  selector:
+    matchLabels:
+      app: zomato
+  template:
+    metadata:
+      labels:
+        app: zomato
+    spec:
+      containers:
+        - name: cont
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
