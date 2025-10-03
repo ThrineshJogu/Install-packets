@@ -1,0 +1,90 @@
+Todays class notes :
+
+Steps to create certificate. 
+
+lets create a folder: mkdir mustafa-user && cd mustafa-user
+Generate a key using openssl : openssl genrsa -out mustafa.key 2048
+Generate a Client Sign Request (CSR) : openssl req -new -key mustafa.key -out mustafa.csr -subj "/CN=mustafa/O=group1"
+Generate the certificate (CRT):  openssl x509 -req -in mustafa.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out mustafa.crt -days 500
+Steps to create user. 
+lets create a user: kubectl config set-credentials mustafa --client-certificate=mustafa.crt --client-key=mustafa.key
+
+Set a context entry in kubeconfig: kubectl config set-context my-context --cluster=minikube --user=mustafa
+Context is used to switch the users in K8s cluster. Because in K8s we cant switch using users, we will add users to context and we will use context to switch b/w users. 
+
+To see the user: kubectl config view
+Switch to devops user: kubectl config use-context my-context
+
+
+#role.yml
+---
+apiVersion:  rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mustafa-role
+  namespace: dev
+rules:
+  - apiGroups: ["*"]
+    resources: ["pods", "deployments"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+
+
+  - apiGroups: ["*"]
+    resources: ["secrets"]
+    verbs: ["get", "list", "create", "delete"]
+
+
+
+#role-binding.yml
+---
+apiVersion:  rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mustafa-role-binding
+  namespace: dev
+subjects:
+  - kind: User
+    name: mustafa
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: mustafa-role
+  apiGroup: rbac.authorization.k8s.io
+
+
+
+#cluster-role.yml
+---
+apiVersion:  rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: mustafa-cluster-role
+rules:
+  - apiGroups: ["*"]
+    resources: ["pods", "deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+
+
+  - apiGroups: ["*"]
+    resources: ["secrets"]
+    verbs: ["get", "list", "create", "delete"]
+
+
+
+
+#cluster-role-binding.yml
+---
+apiVersion:  rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mustafa-cluster-role-binding
+subjects:
+  - kind: User
+    name: mustafa
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: mustafa-cluster-role
+  apiGroup: rbac.authorization.k8s.io
+
+
