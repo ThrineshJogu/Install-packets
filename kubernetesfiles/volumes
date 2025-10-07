@@ -1,1 +1,134 @@
+****EMPTYDIR***
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+        - name: cont-1
+          image: nginx
+          volumeMounts:
+            - mountpath: "/flm"
+              name: myvolume
+        - name: cont-2
+          image: nginx
+          command: ["/bin/bash","-c","while true; do echo welcome to devops; sleep 5; done"]
+          volumeMounts:
+            - mountpath: "/devops"
+              name: myvolume
+      volumes:
+        - name: myvolume
+          emptyDir: {}
+
+--------------------------------------------------------------------------------------------------------------------
+
+***HOSTPATH****
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+        - name: cont-1
+          image: nginx
+          volumeMounts:
+            - mountpath: "/flm"
+              name: myvolume
+        - name: cont-2
+          image: nginx
+          command: ["/bin/bash","-c","while true; do echo welcome to devops; sleep 5; done"]
+          volumeMounts:
+            - mountpath: "/devops"
+              name: myvolume
+      volumes:
+        - name: myvolume
+          hostpath:
+            path: "/tmp/mydata"
+---------------------------------------------------------------------------------------------------------------------------
+PV.yml
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-1
+spec:
+  capacity:
+    storage: 7Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  awsElasticBlockStore:
+    volumeID: vol-xxxxxxx  # replace with actual EBS volume ID
+    fsType: ext4
+--------------------------------------------------------------------------------------------------------------------------
+pvc.yml
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 7Gi
+--------------------------------------------------------------------------------------------------------------------------- 
+
+PV AND PVC
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+        - name: cont-1
+          image: nginx
+          volumeMounts:
+            - mountpath: "/flm"
+              name: myvolume
+        - name: cont-2
+          image: nginx
+          command: ["/bin/bash","-c","while true; do echo welcome to devops; sleep 5; done"]
+          volumeMounts:
+            - mountpath: "/devops"
+              name: myvolume
+      volumes:
+        - name: myvolume
+          PersistentVolumeClaim:
+            claimName: Pvc-1
+
 
