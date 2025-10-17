@@ -1,0 +1,11 @@
+curl -L https://istio.io/downloadIstio | sh 
+ll
+cd folder
+export PATH=$PWD/bin:$PATH
+kubectl label namespace default istio-injection=enabled
+istioctl install --set profile=demo -y
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl patch svc productpage -p '{"spec":{"type":"LoadBalancer"}}
+access application with DNS-name:9080/productpage
+
+
