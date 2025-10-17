@@ -1,11 +1,81 @@
+->download istio
 curl -L https://istio.io/downloadIstio | sh 
-ll
+ll -- go to folder
 cd folder
 export PATH=$PWD/bin:$PATH
+->label the namespace
 kubectl label namespace default istio-injection=enabled
+-> install istio
 istioctl install --set profile=demo -y
+
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+->change the service to LoadBalancer from clusterIP
 kubectl patch svc productpage -p '{"spec":{"type":"LoadBalancer"}}
+
 access application with DNS-name:9080/productpage
+
+create the destination-rule and virtual-service to route the traffic by percentage
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vi destination-rule.yml
+
+---
+apiVersion:networking.istio.io/v1 beta1
+kind:DestinationRule
+matadata:
+  name:reviews
+spec:
+  host:reviews
+  subsets:
+    - name:v1
+      labels:
+        version:v1
+    - name:v2
+      labels:
+        version:v2
+    - name:v3
+      labels:
+        version:v3
+kubectl create -f destination-rule.yml
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vi virtual-service.yml
+---
+apiVersion:networking.istio.io/v1 beta1
+kind:DestinationRule
+matadata:
+  name:reviews
+spec:
+  hosts:
+    - reviews
+  http:
+    - route:
+        - destination:
+            hosts:reviews
+            subset:v1
+          weight:0
+        - destination:
+            hosts:reviews
+            subset:v2
+          weight:0  
+        - destination:
+            hosts:reviews
+            subset:v3
+          weight:100 
+
+kubectl create -f virtual-service.yml
+change the weight in versions and check 
+kubectl apply -f virtual-service.yml
+
+
+
+
+
+
+
+
+
+
+
 
 
