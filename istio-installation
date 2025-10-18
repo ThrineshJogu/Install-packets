@@ -10,7 +10,7 @@ istioctl install --set profile=demo -y
 
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 ->change the service to LoadBalancer from clusterIP
-kubectl patch svc productpage -p '{"spec":{"type":"LoadBalancer"}}
+kubectl patch svc productpage -p '{"spec":{"type":"LoadBalancer"}}'
 
 access application with DNS-name:9080/productpage
 
