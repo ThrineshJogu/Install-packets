@@ -3,6 +3,7 @@ curl -L https://istio.io/downloadIstio | sh -
 ll -- go to folder
 cd folder
 export PATH=$PWD/bin:$PATH
+
 ->label the namespace
 kubectl label namespace default istio-injection=enabled
 -> install istio
