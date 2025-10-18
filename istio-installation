@@ -1,5 +1,5 @@
 ->download istio
-curl -L https://istio.io/downloadIstio | sh 
+curl -L https://istio.io/downloadIstio | sh -
 ll -- go to folder
 cd folder
 export PATH=$PWD/bin:$PATH
