@@ -1,10 +1,10 @@
 ---
 apiVersion: batch/v1
-kind:CronJob
+kind: CronJob
 metadata:
-  name:flm
+  name: flm
 spec:
-  schedule: " * * * * *"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
       template:
@@ -12,5 +12,5 @@ spec:
           containers:
             - name: cont-1
               image: ubuntu
-            command: ["/bin/bash", "-c", "sudo apt update -y; sleep 30"]
+              command: ["/bin/bash", "-c", "sudo apt update -y; sleep 30"]
           restartPolicy: Never
