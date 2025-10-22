@@ -1,26 +1,24 @@
 vi provider.tf
 
 provider "aws" {
-region="eu-north-1"
+  region = "eu-north-1"
 }
 
 vi resource.tf
 
-resource "aws_instance" "myserver"{
-tags={
-Name= "flm-server"
-Env= "dev"
+resource "aws_instance" "myserver" {
+  tags = {
+    Name = "fim-server"
+    Env  = "Dev"
+  }
+  ami               = "ami-0854d4f8e4bd6b834"
+  instance_type     = "t3.micro"
+  key_name          = "newkey"
+  availability_zone = "eu-north-1a"
+  root_block_device {
+    volume_size = 12
+  }
 }
-ami= "ami-0854d4f8e4bd6b834"
-instance_type= "t3.micro"
-key_name= "newkwy"
-availability_zone= "us-east-1a"
-root_block_device{
-volume_size= 12
-}
-count= 2
-}
-
 terraform init
 terraform plan
 terraform apply --auto-approve
