@@ -38,9 +38,9 @@ variable "icount" {
   type= number
   default= 3
 }
-variable "itype" {
+variable "ivolume" {
   type= number
-  default= "8"
+  default= 8
 }
 
 
