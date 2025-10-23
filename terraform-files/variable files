@@ -1,47 +1,46 @@
 vi provider.tf
 
 provider "aws" {
-  region= "eu-north-1
+  region= "eu-north-1"
 }
 
 vi resource.tf
 
 resource "aws_instance" "myserver" {
-  tags= {
-    Name= var.iname
+  tags = {
+    Name = var.iname
   }
-  ami= var.iami
-  instance_type= var.itype
-  count= var.icount
-  root_block_device{
-    volume_size= var.ivolume
+  ami           = var.iami
+  instance_type = var.itype
+  count         = var.icount
+  root_block_device {
+    volume_size = var.ivolume
   }
- count= 3
 }
 
 vi variable.tf
 
 variable "iname" {
-  description= "This is my instance name"
-  type= string
-  default= "myserver"
+  description = "This is my instance name"
+  type        = string
+  default     = "myserver"
 }
 
 variable "iami" {
-  type= string
-  default= "ami-0854d4f8e4bd6b834"
+  type    = string
+  default = "ami-0854d4f8e4bd6b834"
 }
 variable "itype" {
-  type= string
-  default= "t3.micro"
+  type    = string
+  default = "t3.micro"
 }
 variable "icount" {
-  type= number
-  default= 3
+  type    = number
+  default = 3
 }
 variable "ivolume" {
-  type= number
-  default= 8
+  type    = number
+  default = 8
 }
 
 
