@@ -16,6 +16,7 @@ resource "aws_instance" "myserver" {
   root_block_device{
     volume_size= var.ivolume
   }
+ count= 3
 }
 
 vi variable.tf
