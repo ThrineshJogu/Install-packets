@@ -26,7 +26,7 @@ resource "aws_instance" "myserver-2" {
     Env  = "Dev"
   }
   ami               = "1b-ami-id"
-  instance_type     = "c7i-flex,large"
+  instance_type     = "c7i-flex.large"
   key_name          = "newkey"
   availability_zone = "eu-north-1b"
   root_block_device {
@@ -40,7 +40,7 @@ resource "aws_instance" "myserver-3" {
     Env  = "Dev"
   }
   ami               = "1a-ami-id"
-  instance_type     = "mfi-flex.large"
+  instance_type     = "m7i-flex.large"
   key_name          = "newkey"
   availability_zone = "eu-north-1c"
   root_block_device {
