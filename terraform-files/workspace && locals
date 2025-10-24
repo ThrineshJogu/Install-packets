@@ -26,11 +26,13 @@ resource "aws_instance" "myinstance" {
 
 locals {
   instance_types = {
-    dev  = "t3.micro"
-    test = "c7i-flex.large"
-    prod = "m7i-flex.large"
+    default = "t3.micro"
+    dev     = "t3.micro"
+    test    = "c7i-flex.large"
+    prod    = "m7i-flex.large"
   }
 }
+
 
 
 terraform workspace list
