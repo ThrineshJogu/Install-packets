@@ -11,7 +11,7 @@ resource "aws_instance" "myserver-1" {
     Name = "1A-server"
     Env  = "Dev"
   }
-  ami               = "1a-ami-id"
+  ami               = "ami-0854d4f8e4bd6b834"
   instance_type     = "t3.micro"
   key_name          = "newkey"
   availability_zone = "eu-north-1a"
@@ -25,7 +25,7 @@ resource "aws_instance" "myserver-2" {
     Name = "1B-server"
     Env  = "Dev"
   }
-  ami               = "1b-ami-id"
+  ami               = "ami-0854d4f8e4bd6b834"
   instance_type     = "c7i-flex.large"
   key_name          = "newkey"
   availability_zone = "eu-north-1b"
@@ -39,7 +39,7 @@ resource "aws_instance" "myserver-3" {
     Name = "1C-server"
     Env  = "Dev"
   }
-  ami               = "1a-ami-id"
+  ami               = "ami-0854d4f8e4bd6b834"
   instance_type     = "m7i-flex.large"
   key_name          = "newkey"
   availability_zone = "eu-north-1c"
