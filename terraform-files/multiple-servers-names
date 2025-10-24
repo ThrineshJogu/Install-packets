@@ -4,25 +4,25 @@ provider "aws"{
 }
 
 
-resource "aws_instance" "myinstance"{
-  tags={
-    Name= var.iname[count.index]
-    Env= "Test"
+resource "aws_instance" "myinstance" {
+  tags = {
+    Name = var.iname[count.index]
+    Env  = "Test"
   }
-  ami= "ami-0854d4f8e4bd6b834"
-  instance_type="t3.micro"
-  key_name="mykey"
-  count= var.icount
+  ami           = "ami-0854d4f8e4bd6b834"
+  instance_type = "t3.micro"
+  key_name      = "mykey"
+  count         = var.icount
 }
 
 
-variable "iname"{
-  type=list(string)
-  default=["server-1","server-2","server-3"]
+variable "iname" {
+  type    = list(string)
+  default = ["server-1", "server-2", "server-3"]
 }
-variable "icount"{
-  type=number
-  default=3
+variable "icount" {
+  type    = number
+  default = 3
 }
 
 
