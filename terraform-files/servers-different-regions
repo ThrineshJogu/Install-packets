@@ -1,0 +1,33 @@
+provider.tf
+
+provider "aws" {
+  region = "eu-north-1"
+}
+
+provider "aws" {
+  region = "ap-south-1"
+  alias="mumbai"
+}
+
+
+vi resource.tf
+
+resource "aws_instance" "myserver-1" {
+  tags = {
+    Name = "eu-server"
+  }
+  ami               = "eu-ami"
+  instance_type     = "t3.micro"
+  key_name          = "eu-key"
+}
+
+resource "aws_instance" "myserver-2" {
+  provider=aws.mumbai
+  tags = {
+    Name = "mumbai-server"
+  }
+  ami               = "ap-ami
+  instance_type     = "c7i-flex.large"
+  key_name          = "ap-key"
+}
+  
