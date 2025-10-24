@@ -1,3 +1,5 @@
+# creating servers in different regions using alias
+
 provider.tf
 
 provider "aws" {
