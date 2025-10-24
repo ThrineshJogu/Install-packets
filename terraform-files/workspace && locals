@@ -1,0 +1,45 @@
+# creating workspaces for different environments to execute the same files and also using locals for creating the different instance_types as per the workspaces.
+
+#vi provider.tf
+
+provider "aws"{
+  region ="eu-noth-1"
+}
+
+#vi resource.tf
+
+resource "aws_instance" "myinstance"{
+  tags={
+    Name= "${terraform.workspace}-server"
+  }
+ami="ami-id"
+instance_type= local.instance_types{terraform.workspace}
+key_name= "newkey"
+root_block_device{
+  volume_size=10
+}
+
+#vi locals.tf
+
+locals{
+  instance_types={
+    dev= "t3.micro"
+    test= "c7i-flex.large"
+    prod= "m7i-flex.large"
+  }
+}
+
+terraform workspace list
+terraform workspace new flm
+terraform workspace select flm
+terraform workspace delete flm
+
+
+
+#if we are deleting the server manually in aws account to apply changes in statefile to show the current servers accurately we use below command
+
+terraform apply -refresh-only
+
+
+
+
