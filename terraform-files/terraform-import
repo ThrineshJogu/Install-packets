@@ -3,9 +3,12 @@ region= "eu-north-1"
 }
 
 resource "aws_instance" "myinstance" {
-ami= ""
+ami= "ami-0854d4f8e4bd6b834"
 instance_type="t3.micro"
 tags={
 Name= "manual_instance"
 }
 }
+
+terraform init
+terraform import aws_instance.myinstance  instance-ID
