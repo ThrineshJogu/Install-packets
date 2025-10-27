@@ -1,0 +1,50 @@
+1. create_before_destroy
+2. ignore_changes
+3. prevent_destroy
+
+1.create_before_destroy
+
+provider "aws" {
+region= "eu-north-1"
+}
+
+resource "aws_instance" "myinstance" {
+ami= "ami-0854d4f8e4bd6b834"
+instance_type="t3.micro"
+tags={
+Name= "manual_instance"
+}
+lifecycle{
+  create_before_destroy= true
+}
+}
+terraform apply --auto-approve -replace="aws_instance.myinstance"
+-----------------------------------------------------------------------------------------------------
+
+
+2.ignore_changes
+
+lifecycle{
+  ignore_changes=[tags,ami,instance_type]
+}
+
+terraform apply --auto-approve
+--------------------------------------------------------------------------------------------------
+
+3. prevent_destroy
+
+lifecycle{
+  prevent_destroy= true
+}
+
+terraform apply --auto-approve
+
+
+
+
+
+
+
+
+
+
