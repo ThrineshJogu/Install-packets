@@ -1,0 +1,123 @@
+create thre floder
+
+mkdir dev test prod
+cd dev
+touch provider.tf main.tf
+mkdir instance security bucket
+cd dev/instance
+vi provider.tf
+
+provider "aws" {
+  region = "eu-north-1"
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------
+vi main.tf
+
+resource "aws_instance" "myserver" {
+  tags = {
+    Name = var.inmae
+  }
+  ami= var.ami_id 
+  instance_type= var.itype 
+}
+
+vi variable.tf
+
+variable "iname"{
+type=string
+}
+variable "ami_id"{
+type=string
+}
+variable "itype"{
+type=string
+}
+--------------------------------------------------------------------------------------------------------------------------------------
+
+cd dev/security
+vi main.tf
+
+resource "aws_security_group" "mysg"{
+name= var.sec_group
+description ="This created by terraform"
+ingress{
+from-port=0
+to_port=0
+protocol="-1"
+cidr_blocks= [0.0.0.0/0"]
+}
+egress{
+from-port=0
+to_port=0
+protocol="-1"
+cidr_blocks= [0.0.0.0/0"]
+}
+}
+
+vi variable.tf
+variable "sec_group"{
+type=string
+}
+------------------------------------------------------------------------------------------------------------------------------------------
+cd dev/bucket
+vi main.tf 
+
+resource "aws_s3_bucket" "mybucket"{
+bucket= var.bucket_name
+}
+vi variable.tf
+
+variable "bucket_name"
+description= "this is my bucket"{
+type= string
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+cd dev
+
+vi main.tf
+
+module "instance_module"{
+source= "./instance"
+iname= "module_server"
+itype="t3.micro"
+ami_id="ami_id"
+}
+
+module "bucket_module"{
+source= "./bucket"
+bucket_name= "bucket_name"
+}
+
+module "security_module"{
+source= "./security"
+sec_group= "module_sec_group"
+}
+
+terraform workspace new dev
+terraform workspace select dev
+terraform init
+terraform plan
+terraform apply --auto-approve
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
