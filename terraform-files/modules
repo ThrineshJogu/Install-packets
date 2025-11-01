@@ -1,4 +1,4 @@
-create thre floder
+create three folders
 
 mkdir dev test prod
 cd dev
@@ -15,7 +15,7 @@ vi main.tf
 
 resource "aws_instance" "myserver" {
   tags = {
-    Name = var.inmae
+    Name = var.iname
   }
   ami= var.ami_id 
   instance_type= var.itype 
@@ -73,7 +73,7 @@ type= string
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-cd dev
+cd dev/security
 
 vi main.tf
 
