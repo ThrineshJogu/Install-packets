@@ -1,4 +1,4 @@
-vpc creation with public subnet
+# vpc creation with public subnet
 
 provider "aws" {
   region = "eu-north-1"
