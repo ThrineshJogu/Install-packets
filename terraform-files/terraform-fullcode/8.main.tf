@@ -16,7 +16,7 @@ resource "aws_launch_template" "mylt" {
 resource "aws_elb" "myelb" {
   name                   = "Terraform-LB"
   subnets                = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
-  vpc_security_group_ids = [aws_security_group.mysg.id]
+  security_groups        = [aws_security_group.mysg.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
