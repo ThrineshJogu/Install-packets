@@ -1,6 +1,7 @@
 resource "aws_security_group" "mysg" {
   name        = "Terraform-SG"
   description = "This is created by terraform"
+  vpc_id      = aws_vpc.myvpc.id
 
   ingress {
     from_port   = 22
