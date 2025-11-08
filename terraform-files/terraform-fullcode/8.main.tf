@@ -15,7 +15,7 @@ resource "aws_launch_template" "mylt" {
 
 resource "aws_elb" "myelb" {
   name                   = "Terraform-LB"
-  subnets                = [aws_subnet.public_subnet.id, aws_subnet.private_subnet.id]
+  subnets                = [aws_subnet.public_subnet.id] #, aws_subnet.public_subnet2.id]
   security_groups        = [aws_security_group.mysg.id]
   listener {
     instance_port     = 80
