@@ -21,21 +21,12 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 }
 
-resource "aws_subnet" "private_subnet" {
-  vpc_id = aws_vpc.myvpc.id
-  tags = {
-    Name = "private-SN"
-  }
-  availability_zone       = "eu-north-1b"
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = false
-}
-
 resource "aws_internet_gateway" "myigw" {
+  vpc_id = aws_vpc.myvpc.id
+
   tags = {
     Name = "Terraform-IGW"
   }
-  vpc_id = aws_vpc.myvpc.id
 }
 
 resource "aws_route_table" "public_rt" {
@@ -47,6 +38,33 @@ resource "aws_route_table" "public_rt" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.myigw.id
   }
+}
+
+resource "aws_subnet" "private_subnet" {
+  vpc_id = aws_vpc.myvpc.id
+  tags = {
+    Name = "private-SN"
+  }
+  availability_zone       = "eu-north-1b"
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = false
+}
+
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+  tags = {
+    Name = "terraform-nat-eip"
+  }
+}
+
+resource "aws_nat_gateway" "mynat" {
+  allocation_id     = aws_eip.nat_eip.id
+  subnet_id         = aws_subnet.public_subnet.id
+  connectivity_type = "public"
+  tags = {
+    Name = "terraform-nat-gateway"
+  }
+  depends_on = [aws_internet_gateway.myigw]
 }
 
 resource "aws_route_table" "private_rt" {
