@@ -15,7 +15,7 @@ resource "aws_launch_template" "mylt" {
 
 resource "aws_elb" "myelb" {
   name                   = "Terraform-LB"
-  subnets                = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  subnets                = [aws_subnet.public_subnet.id, aws_subnet.private_subnet.id]
   security_groups        = [aws_security_group.mysg.id]
   listener {
     instance_port     = 80
@@ -38,6 +38,6 @@ resource "aws_autoscaling_group" "myasg" {
   desired_capacity     = 2
   health_check_type    = "EC2"
   load_balancers       = [aws_elb.myelb.name]
-  vpc_zone_identifier  = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  vpc_zone_identifier  = [aws_subnet.public_subnet.id, aws_subnet.private_subnet.id]
 }
 
