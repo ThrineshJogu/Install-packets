@@ -57,37 +57,36 @@ else
         echo "not equal"
 fi      
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#! /bin/bash
+#!/bin/bash
 
 echo "enter your username"
 read user
-read -sp "enter your password" pass
-if [[ $user=="mustafa" && $pass=="admin@123" ]];  # for 'or' use || in place of &&
-then
-        echo -e "\n Login success"
+read -sp "enter your password: " pass
+
+if [[ $user == "mustafa" && $pass == "admin@123" ]]; then
+    echo -e "\nLogin success"
 else
-        echo -e "\n Login failed"
+    echo -e "\nLogin failed"
 fi
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 nested if
 
-#! /bin/bash
+#!/bin/bash
 
 echo "enter your username"
 read user
-if [[ $user=="mustafa" ]];
-then
-        read -sp "enter your password" pass
-        if [[ $pass=="admin@123" ]];
-        then
-                echo -e "\n Login success"
-        else
-                echo -e "\n Enter correct password"
-        fi
-else    
-        echo -e "\n enter correct username"
-fi      
+
+if [[ $user == "mustafa" ]]; then
+    read -sp "enter your password: " pass
+    if [[ $pass == "admin@123" ]]; then
+        echo -e "\nLogin success"
+    else
+        echo -e "\nEnter correct password"
+    fi
+else
+    echo -e "\nEnter correct username"
+fi
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 for loop
