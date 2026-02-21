@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flm
+  namespace: dev
 spec:
   replicas: 3
   selector:
@@ -14,10 +15,16 @@ spec:
         app: zomato
     spec:
       containers:
-        - name: cont
+        - name: mycont
           image: shaikmustafa/dm
           ports:
             - containerPort: 80
+          resources:
+            requests.cpu: "250m"
+            limits.cpu: "300m"
+            requests.memory: "5mi"
+            limits.memory: "10mi"
+            
           envFrom:
             - configMapRef:
                 name: my-config-map
