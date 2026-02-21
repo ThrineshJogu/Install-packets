@@ -6,7 +6,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: swiggy
+    app: zomato
   ports:
     - port: 80
       targetPort: 80
