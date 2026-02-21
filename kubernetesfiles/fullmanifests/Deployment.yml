@@ -18,5 +18,12 @@ spec:
           image: shaikmustafa/dm
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: my-config-map
+            - secretRef:
+                name: my-secret
+
+          
 
             
