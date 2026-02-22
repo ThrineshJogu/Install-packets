@@ -77,6 +77,9 @@ spec:
           hostpath:
             path: "/tmp/mydata"
 ---------------------------------------------------------------------------------------------------------------------------
+
+create EBS volume separately with 25Gi
+
 3.PV.yml
 
 ---
@@ -91,9 +94,11 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Recycle
   awsElasticBlockStore:
-    volumeID: vol-xxxxxxx  # replace with actual EBS volume ID
+    volumeID: vol-xxxxxxx  # replace with actual EBS volume ID from AWS account
     fsType: ext4
 --------------------------------------------------------------------------------------------------------------------------
+pvc automatically takes available pv here no need to attache pv to pvc manually
+
 4.pvc.yml
 
 ---
@@ -109,7 +114,8 @@ spec:
       storage: 7Gi
 --------------------------------------------------------------------------------------------------------------------------- 
 
-PV AND PVC
+attaching pvc to a pod
+
 ---
 apiVersion: apps/v1
 kind: Deployment
