@@ -16,4 +16,55 @@ helm upgrade myrelease .      # if we modify any manifest files
 helm history
 helm rollback myrelease 1
 
+------------------------------------------------------------------------------------------------------------------------
+how to host the helm chart publicly
+
+helm lint myhelm 
+helm package myhelm
+ll
+helm repo index .
+
+install git in your server
+yum install git -y
+create empty repo in github and clone to the server myhelmrepo
+git clone repo_url
+mv myhelm-0.1.0.tgz  index.yaml  myhelmrepo
+cd myhelmrepo
+git add *
+git commit -m "all" .
+git push -u origin main
+
+see the files github
+go to settings --- pages--- main root and save --- you will get url
+go to server
+helm repo add myrelease (github_url)
+helm repo list
+helm install name myrelase/myhelm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
