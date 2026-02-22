@@ -1,4 +1,11 @@
-****EMPTYDIR***
+There are four types of volumes in k8s:
+1. EMPTYDIR
+2. HOSTPATH
+3. PV(persistent volume)
+4. PVC(persistent volume claim)
+
+
+1.****EMPTYDIR***
 
 ---
 apiVersion: apps/v1
@@ -33,7 +40,7 @@ spec:
 
 --------------------------------------------------------------------------------------------------------------------
 
-***HOSTPATH****
+2.***HOSTPATH****
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,7 +73,7 @@ spec:
           hostpath:
             path: "/tmp/mydata"
 ---------------------------------------------------------------------------------------------------------------------------
-PV.yml
+3.PV.yml
 
 ---
 apiVersion: v1
@@ -83,7 +90,7 @@ spec:
     volumeID: vol-xxxxxxx  # replace with actual EBS volume ID
     fsType: ext4
 --------------------------------------------------------------------------------------------------------------------------
-pvc.yml
+4.pvc.yml
 
 ---
 apiVersion: v1
