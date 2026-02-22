@@ -1,0 +1,19 @@
+first install helm in your server from official document
+
+helm create myhelm
+ll
+cd myhelm
+ll
+# in templates you can modify the manifest files as per your requirements
+# we can also use our own manifest files in the templates folder by deleting the default files
+cd templates # in this folder create your own manifests files   deployment, HPA, Service, etc.
+cd myhelm
+helm install myrelease .
+helm list
+kubectl get all
+helm uninstall myrelease
+helm upgrade myrelease .      # if we modify any manifest files
+helm history
+helm rollback myrelease 1
+
+
