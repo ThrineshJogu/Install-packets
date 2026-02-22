@@ -5,6 +5,10 @@ There are four types of volumes in k8s:
 4. PVC(persistent volume claim)
 
 
+multiple containers in pod.
+
+kubectl exec -it pod-name -c cont-2 --bash
+
 1.****EMPTYDIR***
 
 ---
