@@ -14,6 +14,6 @@ spec:
     fsType: ext4
 
 
-    # take 25 GB EBS volume separately in cloud and create PV with 10 GI with voulme ID and create PVC separately PVC will \
-    # available PV and will be attached atomatically
+    # take 25 GB EBS volume separately in cloud and create PV with 10 GI with voulme ID , 
+    # create PVC separately PVC will take available PV and will be attached atomatically
 
