@@ -5,11 +5,15 @@ metadata:
   name: pv-1
 spec:
   capacity:
-    storage: 7Gi
+    storage: 10 Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Recycle
   awsElasticBlockStore:
     volumeID: vol-xxxxxxx  # replace with actual EBS volume ID from AWS account
     fsType: ext4
+
+
+    # take 25 GB EBS volume separately in cloud and create PV with 10 GI with voulme ID and create PVC separately PVC will \
+    # available PV and will be attached atomatically
 
