@@ -9,4 +9,24 @@ probes: it will check the health status of the containers inside pod
 3. startup probe : when the new pod is created it will take at least 10 to 30 secs of time until the pod is created startup
                     probe will restrict the readiness and liveness probes to check for health for every 5 secs.
                     Note: This is not used mostly.
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+spec:
+  containers:
+    - name: cont-1
+      image: ubuntu
+      command: ["/bin/bash", "-c", "touch /opt/myfile; sleep 1000;"]
+
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /opt/myfile
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 30
                     
