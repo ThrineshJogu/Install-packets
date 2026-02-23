@@ -45,6 +45,9 @@ perform above commands for all the pods.
 kubectl get po -o wide --show-labels
 kubectl exec -it swiggy -- ping pod_ip
 
+
+*********ingress************
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -66,14 +69,38 @@ kubectl create -f allow-swiggy-to-client.yml
 
 kubectl exec -it swiggy -- ping podIP(clientIP)
 
+********eggress*********
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-swiggy-egress-to-client
+spec:
+  podSelector:
+    matchLabels:
+      app: swiggy
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            app: client
 
 
 
+Block all pods:
 
-
-
-
-
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
 
 
 
