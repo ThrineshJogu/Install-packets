@@ -29,4 +29,82 @@ spec:
         initialDelaySeconds: 5
         periodSeconds: 5
         timeoutSeconds: 30
-                    
+   ----------------------------------------------------------------------------------------------------------------------
+
+Full manifest file for deployment:
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flm
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zomato
+  template:
+    metadata:
+      labels:
+        app: zomato
+    spec:
+      containers:
+        # Main Application Container
+        - name: mycont-1
+          image: shaikmustafa/dm
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "10Mi"
+            limits:
+              cpu: "300m"
+              memory: "20Mi"
+
+          # 🔹 Readiness Probe
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          # 🔹 Liveness Probe
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          envFrom:
+            - configMapRef:
+                name: my-config-map
+            - secretRef:
+                name: my-secret
+
+          volumeMounts:
+            - name: myvolume
+              mountPath: "/flm"
+
+        # Sidecar Container
+        - name: mycont-2
+          image: busybox
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - while true; do echo "Sidecar running at $(date)" >> /flm/sidecar.log; sleep 5; done
+          volumeMounts:
+            - name: myvolume
+              mountPath: "/flm"
+
+      volumes:
+        - name: myvolume
+          persistentVolumeClaim:
+            claimName: pvc-1
