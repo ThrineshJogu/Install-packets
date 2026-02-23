@@ -1,0 +1,12 @@
+probes: it will check the health status of the containers inside pod
+
+1. Readiness probe: It will check whether container is running or not for every 5secs if not will wait for 30 secs 
+                    and recreate the container.
+
+2. Liveness probe:  It will check whether container is responding to user request or not for every 5 secs 
+                    if not will wait for 30 secs and recreate the container.
+
+3. startup probe : when the new pod is created it will take at least 10 to 30 secs of time until the pod is created startup
+                    probe will restrict the readiness and liveness probes to check for health for every 5 secs.
+                    Note: This is not used mostly.
+                    
