@@ -116,7 +116,15 @@ to access application:
 
 ingressDNSname/nginx  or ingressDNSname/httpd
     
-
+Internet request
+   ↓
+AWS Load Balancer (Service type: LoadBalancer)
+   ↓
+NGINX Ingress Controller
+   ↓
+Internal ClusterIP Services
+   ↓
+Pods
 
 
 
