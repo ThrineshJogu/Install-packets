@@ -1,4 +1,5 @@
 # denies all inbound and outbound traffic for all pods
+we need to install calcio for network policies
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -32,8 +33,38 @@ spec:
       ports: 
         - containerPort: 80
 
-     
 
+install ping command first in all pods first
+
+kubectl exec -it client -- apt update -y
+kubectl exec -it client -- apt install iputils-ping-y
+kubectl exec -it client -- ping google.com
+
+perform above commands for all the pods.
+
+kubectl get po -o wide --show-labels
+kubectl exec -it swiggy -- ping pod_ip
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-swiggy-to-client
+spec:
+  podSelector:
+    matchLabels:
+      app: client
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: swiggy
+
+
+kubectl create -f allow-swiggy-to-client.yml
+
+kubectl exec -it swiggy -- ping podIP(clientIP)
 
 
 
