@@ -16,7 +16,23 @@ kubectl delete netpol --all
 
 ==========================================================================================================================
 
+first create four pods
+client swiggy zomato uber
 
+apiVersion:v1
+kind: Pod
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  containers:
+    - name: cont-1
+      image: ngnix
+      ports: 
+        - containerPort: 80
+
+     
 
 
 
