@@ -109,7 +109,12 @@ spec:
             port:
               number: 80
 
+kubectl create -f .
+kubectl get ing
 
+to access application:
+
+ingressDNSname/nginx  or ingressDNSname/httpd
     
 
 
