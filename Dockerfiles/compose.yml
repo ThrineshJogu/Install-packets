@@ -1,1 +1,45 @@
 
+version: "3"
+services:
+  devops:
+    container_name: cont-1
+    image: shaikmustafa/dm
+    ports:
+      - "1111:80"
+
+  cloud:
+    container_name: cont-2
+    image: shaikmustafa/cycle
+    ports:
+      - "2222:80"
+
+  amazon:
+    container_name: cont-3
+    image: shaikmustafa/mygame
+    ports:
+      - "3333:80"
+
+
+
+##  to execute the above file use below commands
+
+docker_compose up -d
+docker_compose stop
+docker_compose start
+docker_compose down
+docker_compose config
+docker_compose images
+docker_compose ps
+docker_compose pause 
+
+
+
+
+
+
+
+
+
+
+
+
