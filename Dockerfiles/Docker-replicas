@@ -1,0 +1,8 @@
+version: "3"
+services:
+  flm:
+    image: shaikmustafa/dm
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 2
