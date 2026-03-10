@@ -31,6 +31,7 @@ docker_compose config
 docker_compose images
 docker_compose ps
 docker_compose pause 
+docker_compose unpause
 docker_compose logs
 
 
