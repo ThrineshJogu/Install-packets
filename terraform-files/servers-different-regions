@@ -1,4 +1,4 @@
-# creating servers in different regions using alias
+# creating servers in different regions using alias and provider
 
 provider "aws" {
   region = "eu-north-1"
