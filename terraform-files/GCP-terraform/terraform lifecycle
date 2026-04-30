@@ -1,0 +1,97 @@
+1. create_before_destroy (GCP)
+
+provider "google" {
+  project = "your-project-id"
+  region  = "europe-north1"
+  zone    = "europe-north1-a"
+}
+
+resource "google_compute_instance" "myinstance" {
+  name         = "manual-instance"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {}
+  }
+
+  labels = {
+    name = "manual_instance"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
+terraform apply --auto-approve -replace="google_compute_instance.myinstance"
+
+
+
+2. ignore_changes (GCP)
+
+resource "google_compute_instance" "myinstance" {
+  name         = "manual-instance"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+
+  labels = {
+    name = "manual_instance"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      labels,
+      machine_type,
+      boot_disk[0].initialize_params[0].image
+    ]
+  }
+}
+
+3. prevent_destroy (GCP)
+
+resource "google_compute_instance" "myinstance" {
+  name         = "manual-instance"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+
+  labels = {
+    name = "manual_instance"
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
