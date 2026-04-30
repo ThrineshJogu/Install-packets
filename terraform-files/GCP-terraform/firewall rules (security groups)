@@ -37,6 +37,8 @@ resource "google_compute_firewall" "allow_http" {
   target_tags   = ["my-instance"]
 }
 
+#In GCP → egress is ALLOWED by default
+
 
 vm.tf (Attach via tags)
 
