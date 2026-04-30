@@ -1,1 +1,63 @@
 
+provider.tf
+
+provider "google" {
+  project = "your-project-id"
+  region  = "europe-north1"
+  zone    = "europe-north1-a"
+}
+
+firewall.tf
+
+# Allow SSH (port 22)
+resource "google_compute_firewall" "allow_ssh" {
+  name    = "allow-ssh"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]  # ⚠️ open to all (restrict in prod)
+  target_tags   = ["my-instance"]
+}
+
+# Allow HTTP (port 80)
+resource "google_compute_firewall" "allow_http" {
+  name    = "allow-http"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["my-instance"]
+}
+
+
+vm.tf (Attach via tags)
+
+resource "google_compute_instance" "myinstance" {
+  name         = "my-instance"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  tags = ["my-instance"]  # matches firewall rule
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {
+      # Public IP
+    }
+  }
+}
