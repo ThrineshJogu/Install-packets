@@ -1,0 +1,85 @@
+provider.tf
+
+provider "google" {
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
+}
+
+
+resource.tf
+
+resource "google_compute_instance" "myserver" {
+  count        = var.icount
+  name         = "${var.iname}-${count.index}"
+  machine_type = var.itype
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = var.iimage
+      size  = var.ivolume
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {
+      # Ephemeral public IP
+    }
+  }
+
+  tags = ["terraform-instance"]
+}
+
+
+variables.tf
+
+variable "project_id" {
+  description = "GCP Project ID"
+  type        = string
+}
+
+variable "region" {
+  default = "europe-north1"
+}
+
+variable "zone" {
+  default = "europe-north1-a"
+}
+
+variable "iname" {
+  description = "Instance name"
+  type        = string
+  default     = "myserver"
+}
+
+variable "iimage" {
+  description = "Boot disk image"
+  type        = string
+  default     = "debian-cloud/debian-11"
+}
+
+variable "itype" {
+  type    = string
+  default = "e2-micro"
+}
+
+variable "icount" {
+  type    = number
+  default = 3
+}
+
+variable "ivolume" {
+  type    = number
+  default = 8
+}
+
+output.tf
+
+output "instance_ids" {
+  value = google_compute_instance.myserver[*].id
+}
+
+
