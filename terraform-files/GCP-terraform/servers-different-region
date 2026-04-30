@@ -1,0 +1,57 @@
+
+provider "google" {
+  project = "your-project-id"
+  region  = "europe-north1"
+  zone    = "europe-north1-a"
+}
+
+# Provider for Mumbai (alias similar to AWS)
+provider "google" {
+  project = "your-project-id"
+  region  = "asia-south1"
+  zone    = "asia-south1-a"
+  alias   = "mumbai"
+}
+
+# VM in Finland (Stockholm region)
+resource "google_compute_instance" "myserver_1" {
+  name         = "stockholm-server"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  tags = ["stockholm"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {} # Enables external IP
+  }
+}
+
+# VM in Mumbai region
+resource "google_compute_instance" "myserver_2" {
+  provider     = google.mumbai
+  name         = "mumbai-server"
+  machine_type = "e2-standard-2"
+  zone         = "asia-south1-a"
+
+  tags = ["mumbai"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {}
+  }
+}
