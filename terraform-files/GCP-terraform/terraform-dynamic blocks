@@ -1,0 +1,41 @@
+provider "google" {
+  project = "your-project-id"
+  region  = "us-central1"
+}
+
+# Create a VPC (if not already present)
+resource "google_compute_network" "vpc_network" {
+  name                    = "terraform-network"
+  auto_create_subnetworks = true
+}
+
+# Dynamic firewall rules for ingress ports
+resource "google_compute_firewall" "allow_ports" {
+  for_each = toset([22, 80, 443, 8080, 9000, 5000])
+
+  name    = "allow-port-${each.value}"
+  network = google_compute_network.vpc_network.name
+
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = [each.value]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+# Egress rule (allow all outbound traffic)
+resource "google_compute_firewall" "allow_egress" {
+  name    = "allow-egress"
+  network = google_compute_network.vpc_network.name
+
+  direction = "EGRESS"
+
+  allow {
+    protocol = "all"
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
+}
