@@ -1,0 +1,43 @@
+vi provider.tf
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+
+vi resource.tf
+
+resource "aws_s3_bucket" "mybucket" {
+  bucket = var.bucket_name
+}
+
+resource "aws_s3_bucket_versioning" "bucketversioning" {
+  bucket = aws_s3_bucket.mybucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+variable "bucket_name"{
+  type=string
+  default="my-unique-terraform-bucket-12345"
+}
+
+#storing statefile in s3 and state file lock
+
+vi backend.tf
+
+terraform{
+backend "s3"{
+bucket="my-unique-terraform-bucket-12345"
+key="prod/terraform.tfstate"
+region="ap-south-1"
+
+use_lockfile=true
+}
+}
+
+
+
+
