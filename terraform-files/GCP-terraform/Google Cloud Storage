@@ -23,3 +23,12 @@ variable "bucket_name" {
   default = "my-unique-terraform-bucket-12345"
 }
 
+
+backend.tf
+
+terraform {
+  backend "gcs" {
+    bucket  = "my-unique-terraform-bucket-12345"
+    prefix  = "prod/terraform"
+  }
+}
