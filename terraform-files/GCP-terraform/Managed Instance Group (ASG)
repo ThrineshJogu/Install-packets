@@ -1,0 +1,58 @@
+provider "google" {
+  project = "your-project-id"
+  region  = "us-central1"
+}
+
+# 1. Instance Template (like Launch Template)
+resource "google_compute_instance_template" "template" {
+  name         = "asg-template"
+  machine_type = "e2-micro"
+
+  disk {
+    source_image = "debian-cloud/debian-11"
+    auto_delete  = true
+    boot         = true
+  }
+
+  network_interface {
+    network = "default"
+    access_config {} # Public IP
+  }
+
+  metadata_startup_script = <<-EOF
+    #!/bin/bash
+    apt update
+    apt install -y nginx
+    systemctl start nginx
+  EOF
+}
+
+# 2. Managed Instance Group (ASG equivalent)
+resource "google_compute_instance_group_manager" "mig" {
+  name               = "asg-mig"
+  base_instance_name = "asg-instance"
+  zone               = "us-central1-a"
+
+  version {
+    instance_template = google_compute_instance_template.template.id
+  }
+
+  target_size = 2
+}
+
+# 3. Autoscaler (Scaling Policy)
+resource "google_compute_autoscaler" "autoscaler" {
+  name   = "asg-autoscaler"
+  zone   = "us-central1-a"
+  target = google_compute_instance_group_manager.mig.id
+
+  autoscaling_policy {
+    max_replicas    = 5
+    min_replicas    = 1
+    cooldown_period = 60
+
+    cpu_utilization {
+      target = 0.6
+    }
+  }
+}
