@@ -24,6 +24,8 @@ variable "bucket_name" {
 }
 
 
+#storing statefile in Google Cloud Storage
+
 backend.tf
 
 terraform {
