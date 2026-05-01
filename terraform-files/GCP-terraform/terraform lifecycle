@@ -60,13 +60,10 @@ resource "google_compute_instance" "myinstance" {
   }
 
   lifecycle {
-    ignore_changes = [
-      labels,
-      machine_type,
-      boot_disk[0].initialize_params[0].image
-    ]
+    ignore_changes = [labels, machine_type]
   }
 }
+
 
 3. prevent_destroy (GCP)
 
