@@ -1,3 +1,21 @@
+Overall Architecture
+
+VPC (10.0.0.0/16)
+│
+├── Public Subnet (10.0.0.0/25)
+│     └── VMs with External IP → Internet access directly
+│
+├── Private Subnet (10.0.0.128/25)
+│     └── VMs WITHOUT External IP
+│            ├── Access Google APIs (via Private Google Access)
+│            └── Access Internet (via Cloud NAT)
+│
+└── Cloud NAT + Router
+      └── Enables outbound internet for private subnet
+
+
+
+
 provider "google" {
   project = "your-project-id"
   region  = "europe-north1"
