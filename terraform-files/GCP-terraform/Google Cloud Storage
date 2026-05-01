@@ -1,0 +1,25 @@
+provider.tf
+
+provider "google" {
+  project = "your-project-id"
+  region  = "asia-south1"
+}
+
+resource.tf
+
+resource "google_storage_bucket" "mybucket" {
+  name     = var.bucket_name
+  location = "ASIA-SOUTH1"
+
+  versioning {
+    enabled = true
+  }
+}
+
+variables.tf
+
+variable "bucket_name" {
+  type    = string
+  default = "my-unique-terraform-bucket-12345"
+}
+
