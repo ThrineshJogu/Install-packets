@@ -1,26 +1,27 @@
-provider.tf
+
 
 provider "google" {
-  project = "your-project-id"
+  project = "project-9c5ad7f6-f26e-49ac-819"
   region  = "asia-south1"
 }
 
-resource.tf
 
 resource "google_storage_bucket" "mybucket" {
   name     = var.bucket_name
   location = "ASIA-SOUTH1"
-
+  uniform_bucket_level_access = true
+  
   versioning {
     enabled = true
   }
+   force_destroy = true # ✅ allows deleting non-empty bucket
 }
 
-variables.tf
+
 
 variable "bucket_name" {
   type    = string
-  default = "my-unique-terraform-bucket-12345"
+  default = "thrinesh-bucket-12345"
 }
 
 
@@ -30,7 +31,7 @@ backend.tf
 
 terraform {
   backend "gcs" {
-    bucket  = "my-unique-terraform-bucket-12345"
+    bucket  = "thrinesh-bucket-12345"
     prefix  = "prod/terraform"
   }
 }
