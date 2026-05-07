@@ -39,3 +39,27 @@ resource "google_compute_instance" "myserver" {
     Client      = "zomato"
   }
 }
+
+
+
+
+public subnet:
+
+network_interface {
+
+    # Attach VM to custom VPC
+    network    = google_compute_network.myvpc.id
+
+    # Attach VM to public subnet
+    subnetwork = google_compute_subnetwork.public_subnet.id
+
+    # External Public IP
+    access_config {
+    }
+  }
+
+for private subnet VM remove the below one:
+
+# External Public IP
+    access_config {
+    }
