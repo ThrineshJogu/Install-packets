@@ -17,7 +17,7 @@ VPC (10.0.0.0/16)
 
 
 provider "google" {
-  project = "your-project-id"
+  project = "project-9c5ad7f6-f26e-49ac-819"
   region  = "europe-north1"
 }
 
