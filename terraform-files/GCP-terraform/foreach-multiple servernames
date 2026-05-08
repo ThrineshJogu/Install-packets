@@ -10,7 +10,7 @@ resource.tf
 
 resource "google_compute_instance" "myinstance" {
 
-  count        = var.count
+  count        = var.icount
   name         = var.name[count.index]
   machine_type = "e2-micro"
   zone         = var.zone
@@ -62,7 +62,7 @@ variable "name" {
   default = ["server-1", "server-2", "server-3"]
 }
 
-variable "count" {
+variable "icount" {
   type    = number
   default = 3
 }
