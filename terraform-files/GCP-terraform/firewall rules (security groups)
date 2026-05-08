@@ -2,7 +2,7 @@
 provider.tf
 
 provider "google" {
-  project = "your-project-id"
+  project = "project-9c5ad7f6-f26e-49ac-819"
   region  = "europe-north1"
   zone    = "europe-north1-a"
 }
