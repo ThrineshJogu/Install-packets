@@ -7,7 +7,7 @@ provider "google" {
 
 # Provider for Mumbai (alias similar to AWS)
 provider "google" {
-  project = "your-project-id"
+  project = "project-9c5ad7f6-f26e-49ac-819"
   region  = "asia-south1"
   zone    = "asia-south1-a"
   alias   = "mumbai"
