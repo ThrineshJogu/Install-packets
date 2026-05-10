@@ -16,24 +16,15 @@ resource "google_compute_firewall" "allow_ssh" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22"]
+    ports    = ["80", "443","8080","22"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["53","5000"]
   }
 
   source_ranges = ["0.0.0.0/0"]  # ⚠️ open to all (restrict in prod)
-  target_tags   = ["my-instance"]
-}
-
-# Allow HTTP (port 80)
-resource "google_compute_firewall" "allow_http" {
-  name    = "allow-http"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["80"]
-  }
-
-  source_ranges = ["0.0.0.0/0"]
   target_tags   = ["my-instance"]
 }
 
