@@ -7,9 +7,17 @@
 
 # You only define the private key resource, and Terraform automatically derives the public key from it.
 
+provider "google" {
+  project = "project-9c5ad7f6-f26e-49ac-819"
+  region  = "us-central1"
+  zone    = "us-central1-a"
+}
 
 # Download TLS provider
 provider "tls" {}
+
+# Local Provider (for saving files locally)
+provider "local" {}
 
 # Generate SSH Key
 resource "tls_private_key" "ssh_key" {
