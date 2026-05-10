@@ -47,5 +47,12 @@ output "private_key" {
 
 2. Public key attached to VM
 metadata = {
-  ssh-keys = "ubuntu:${tls_private_key.ssh_key.public_key_openssh}"
+  ssh-keys = "keynamehere:${tls_private_key.ssh_key.public_key_openssh}"
 }
+
+
+ # Attach Existing SSH Key
+  metadata = {
+    ssh-keys = "keynamehere:${file("mykey.pub")}"
+  }
+
