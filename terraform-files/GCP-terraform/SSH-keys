@@ -43,3 +43,9 @@ output "private_key" {
   value     = tls_private_key.ssh_key.private_key_pem
   sensitive = true
 }
+
+
+2. Public key attached to VM
+metadata = {
+  ssh-keys = "ubuntu:${tls_private_key.ssh_key.public_key_openssh}"
+}
