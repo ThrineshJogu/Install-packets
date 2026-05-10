@@ -1,0 +1,45 @@
+# This Terraform code is used to generate an SSH key pair automatically and save it into local files.
+
+# An SSH key pair always has:
+
+# Private Key → kept secret (.pem)
+# Public Key → shared with servers/VMs (.pub)
+
+# You only define the private key resource, and Terraform automatically derives the public key from it.
+
+
+# Download TLS provider
+provider "tls" {}
+
+# Generate SSH Key
+resource "tls_private_key" "ssh_key" {
+
+  # Type of encryption algorithm
+  algorithm = "RSA"
+
+  # Key size
+  rsa_bits  = 4096
+}
+
+# Save Private Key in local file
+resource "local_file" "private_key" {
+  content  = tls_private_key.ssh_key.private_key_pem
+  filename = "terraform-key.pem"
+}
+
+# Save Public Key in local file
+resource "local_file" "public_key" {
+  content  = tls_private_key.ssh_key.public_key_openssh
+  filename = "terraform-key.pub"
+}
+
+# Display Public Key
+output "public_key" {
+  value = tls_private_key.ssh_key.public_key_openssh
+}
+
+# Display Private Key
+output "private_key" {
+  value     = tls_private_key.ssh_key.private_key_pem
+  sensitive = true
+}
