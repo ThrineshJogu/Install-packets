@@ -1,0 +1,72 @@
+# =========================================
+# Provider Configuration
+# =========================================
+
+provider "google" {
+  project = "project-9c5ad7f6-f26e-49ac-819"
+  region  = "us-central1"
+  zone    = "us-central1-a"
+}
+
+# =========================================
+# Enable GKE API
+# =========================================
+
+resource "google_project_service" "container_api" {
+  service = "container.googleapis.com"
+
+  disable_on_destroy = false
+}
+
+# =========================================
+# GKE Cluster
+# =========================================
+
+resource "google_container_cluster" "gke_cluster" {
+  name     = "my-gke-cluster"
+  location = "us-central1"
+
+  # Use default VPC network
+  network = "default"
+
+  # Remove default node pool
+  remove_default_node_pool = true
+
+  # Required temporary node count
+  initial_node_count = 1
+
+  depends_on = [
+    google_project_service.container_api
+  ]
+}
+
+# =========================================
+# GKE Node Pool
+# =========================================
+
+resource "google_container_node_pool" "primary_nodes" {
+  name       = "gke-node-pool"
+  location   = "us-central1"
+  cluster    = google_container_cluster.gke_cluster.name
+
+  node_count = 2
+
+  node_config {
+    machine_type = "e2-medium"
+
+    # API access permissions
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+
+    labels = {
+      env = "dev"
+    }
+
+    tags = ["gke-node"]
+  }
+
+  depends_on = [
+    google_container_cluster.gke_cluster
+  ]
+}
