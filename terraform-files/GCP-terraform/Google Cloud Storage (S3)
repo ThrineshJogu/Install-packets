@@ -2,13 +2,13 @@
 
 provider "google" {
   project = "project-9c5ad7f6-f26e-49ac-819"
-  region  = "asia-south1"
+  region  = "europe-north1"
 }
 
 
 resource "google_storage_bucket" "mybucket" {
   name     = var.bucket_name
-  location = "ASIA-SOUTH1"
+  location = "EUROPE-NORTH1"
   uniform_bucket_level_access = true
   
   versioning {
