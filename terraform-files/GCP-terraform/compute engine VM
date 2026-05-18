@@ -41,6 +41,33 @@ resource "google_compute_instance" "myserver" {
 }
 
 
+-----------------------------------------------------------------------------------------------
+
+
+resource "google_compute_instance" "public_vm" {
+  name         = "public-vm"
+  machine_type = "e2-micro"
+  zone         = "europe-north1-a"
+
+  tags = ["ssh-server"]
+
+  # Boot Disk
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-12"
+    }
+  }
+
+  # Network Configuration
+  network_interface {
+    subnetwork = google_compute_subnetwork.public_subnet.id
+
+    # External IP
+    access_config {
+    }
+  }
+}
+
 
 
 public subnet:
