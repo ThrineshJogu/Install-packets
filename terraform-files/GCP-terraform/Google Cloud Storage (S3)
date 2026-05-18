@@ -29,6 +29,8 @@ variable "bucket_name" {
 
 backend.tf
 
+
+
 terraform {
   backend "gcs" {
     bucket  = "thrinesh-bucket-12345"
