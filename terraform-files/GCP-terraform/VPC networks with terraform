@@ -1,4 +1,5 @@
-Overall Architecture
+VPC Overall Architecture
+
 
 VPC (10.0.0.0/16)
 │
@@ -13,6 +14,12 @@ VPC (10.0.0.0/16)
 └── Cloud NAT + Router
       └── Enables outbound internet for private subnet
 
+10.0.0.0/16 ----->2^32-16=65536 ip's
+10.0.0.0/25 ----->2^32-25=128 ip's
+10.0.0.128/25 -----2^32-25 =128 ip's
+.       .
+.       .
+10.0.0.255  total 256 ips in 1 set
 
 
 
